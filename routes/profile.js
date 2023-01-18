@@ -17,7 +17,7 @@ router.post("/", async(req, res) => {
     });
     if (!valid_token) return res.status(401).json({ message: "Invalid token" });
     const id_from_token = valid_token._id;
-
+    // console.log(id_from_token)
     const { marital, age, bio, image } = req.body;
     try {
         let create_profile = new profileSchema({
@@ -29,6 +29,7 @@ router.post("/", async(req, res) => {
            
         });
         let user= await users_schema.findById(id_from_token);
+
         user.profile= create_profile._id;
         
         await user.save();
@@ -37,7 +38,7 @@ router.post("/", async(req, res) => {
         res.status(200).json({ message: "Profile created successfully", data: create_profile });
     } catch (error) {
         console.log(error.message);
-        res.status(500).send("Server error");
+        res.status(500).send(error.message);
     }
 
 });
@@ -54,7 +55,7 @@ router.get("/", async(req, res) => {
 
 //get last added profiles
 router.get("/last-added-profiles", async(req,res)=>{
-    const last_added_profiles= await profileSchema.find().populate({path:'user_profile'}).sort({updatedAt: -1})
+    const last_added_profiles= await profileSchema.find().populate({path:'user_profile'}).sort({updatedAt: -1});
     res.send(last_added_profiles)
 })
 

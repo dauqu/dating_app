@@ -17,7 +17,7 @@ app.use("/api/register", require("./routes/register"));
 app.use("/api/login", require("./routes/login"));
 app.use("/api/add_contact", require("./routes/add_contact"));
 app.use("/api/profile", require("./routes/profile"));
-app.use("/api/testimonials", require("./routes/testimonials"));
+app.use("/api/testimonial", require("./routes/testimonials"));
 app.use("/api/contact", require("./routes/contacts"));//uncomment only if u want to use this file==>form smtp.js
 app.use("/api/blog", require("./routes/blog"));
 

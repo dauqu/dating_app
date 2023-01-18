@@ -39,6 +39,57 @@ router.post("/",validateBlog, async(req, res) => {
 
 });
 
+//get blog
+router.get("/", async(req, res) => {
+    try {
+        let blogs = await blogSchema.find();
+        res.status(200).json({ message: "Blogs fetched successfully", data: blogs });
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).send("Server error");
+    }
+});
+//get blog by id
+router.get("/:id", async(req, res) => {
+    try {
+        let blog = await blogSchema.findById(req.params.id);
+        res.status(200).json({ message: "Blog fetched successfully", data: blog });
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).send("Server error");
+    }
+});
+
+//update blog
+router.put("/:id", async(req, res) => {
+    try {
+        const blog = await blogSchema.findByIdAndUpdate(req.params.id, {
+            title: req.body.title,
+            description: req.body.description,
+            body: req.body.body
+        });
+        res.status(200).json({
+            message: "Blog updated successfully",
+            blog
+        });
+    } catch (error) {
+        res.status(400).json({ message: error.message, status: "error" });
+    }
+});
+
+//delete blog
+router.delete("/:id", async(req, res) => {
+    try {
+        const blog = await blogSchema.findByIdAndDelete(req.params.id);
+        res.status(200).json({
+            message: "Blog deleted successfully",
+            blog
+        });
+    } catch (error) {
+        res.status(400).json({ message: error.message, status: "error" });
+    }
+});
+
 //validate blog
 async function validateBlog(req, res,next) {
    const { title, description, body } = req.body;

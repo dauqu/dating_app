@@ -3,15 +3,8 @@ const router = express.Router();
 const UsersSchema = require("./../models/users");
 const bcrypt = require("bcryptjs");
 
-router.get("/", async(req, res) => {
-    const user = await UsersSchema.find();
 
-    res.json({
-        message: "user details",
-        data: user
-    });
-});
-
+//create users
 router.post("/", validateRegister, async(req, res) => {
     const { fname, lname, email, password, confirm_password, college_name, profession, gender, phone } = req.body;
 
@@ -45,6 +38,65 @@ router.post("/", validateRegister, async(req, res) => {
         res.status(400).json({ message: error.message, status: "error" });
     }
 });
+
+//get users
+router.get("/", async(req, res) => {
+    const user = await UsersSchema.find();
+
+    res.json({
+        message: "user details",
+        data: user
+    });
+});
+
+//get single user
+router.get("/:id", async(req, res) => {
+    const user = await UsersSchema.findById(req.params.id);
+    try {
+        res.status(200).json({
+            message: "Single user",
+            user
+        });
+    } catch (error) {
+        res.status(400).json({ message: error.message, status: "error" });
+    }
+});
+
+//update user
+router.put("/:id", validateRegister, async(req, res) => {
+    try {
+        const user = await UsersSchema.findByIdAndUpdate(req.params.id, {
+            fname: req.body.fname,
+            lname: req.body.lname,
+            email: req.body.email,
+            college_name: req.body.college_name,
+            profession: req.body.profession,
+            gender: req.body.gender,
+            phone: req.body.phone
+        });
+        res.status(200).json({
+            message: "User updated successfully",
+            user
+        });
+    } catch (error) {
+        res.status(400).json({ message: error.message, status: "error" });
+    }
+});
+
+//delete user
+router.delete("/:id", async(req, res) => {
+    const user = await UsersSchema.findByIdAndDelete(req.params.id);
+    try {
+        res.status(200).json({
+            message: "User deleted successfully",
+            user
+        });
+    }
+    catch (error) {
+        res.status(400).json({ message: error.message, status: "error", message: "User not found" });
+    }
+});
+
 
 //Middleware for register validation
 async function validateRegister(req, res, next) {

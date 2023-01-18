@@ -39,7 +39,7 @@ const users_schema = new mongoose.Schema({
     profile:{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'profile'
-    },
+    }, 
     blog:[{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'blog'

@@ -19,7 +19,7 @@ router.post("/", async(req,res)=>{
 })
 
 //get all testimonials
-router.get("/get-testimonials", async(req,res)=>{
+router.get("/", async(req,res)=>{
     const testimonials= await testimonialSchema.find().populate([
         {
             path:'user_testimonial',
@@ -33,6 +33,33 @@ router.get("/get-testimonials", async(req,res)=>{
     ]);
     res.send(testimonials)
 })
+
+//update testimonial
+router.put("/:id", async(req,res)=>{
+    const {testimonial}= req.body;
+    let id = await log_validate(req);
+    try {
+        const testimonial_update= await testimonialSchema.findByIdAndUpdate(req.params.id, {
+            user_testimonial: id,
+            testimonial
+        }, {new: true});
+        res.status(200).json({message: "Testimonial updated successfully", data: testimonial_update});
+    } catch (error) { 
+        res.send(error)
+    }
+});
+
+//delete testimonial
+router.delete("/:id", async(req,res)=>{
+    try {
+        const testimonial_delete= await testimonialSchema.findByIdAndDelete(req.params.id);
+        res.status(200).json({message: "Testimonial deleted successfully", data: testimonial_delete});
+    } catch (error) {
+        res.send(error)
+    }
+});
+
+
 
 //extract the user id from the token and using it in the post route
 async function log_validate(req){
