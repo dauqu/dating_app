@@ -36,6 +36,15 @@ const users_schema = new mongoose.Schema({
         type: Number,
         required: true
     },
+    profile:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'profile'
+    },
+    blog:[{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'blog'
+    }]
+
 }, { timestamps: true });
 
 module.exports = mongoose.model('users', users_schema);

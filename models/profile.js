@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const profileSchema = new mongoose.Schema({
-    user: {
+    user_profile: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'users',
         required: true
@@ -14,7 +14,7 @@ const profileSchema = new mongoose.Schema({
     bio: {
         type: String
     },
-    image: {
+    image: { 
         type: String
     }
 }, { timestamps: true });

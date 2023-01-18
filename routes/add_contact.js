@@ -83,8 +83,6 @@ async function validate_contact(req, res, next) {
         return res.status(401).json({ message: "Access denied. No token provided", status: "error" });
     }
 
-
-
     const { full_name, phone, email } = req.body;
     if (full_name == null || full_name == "" || full_name == undefined ||
         phone == null || phone == "" || phone == undefined ||

@@ -5,6 +5,6 @@ const router = express.Router();
 router.get('/', (req, res) => {
     res.clearCookie('auth_token');
     res.json({ "message": "Logout Successfully" });
-    res.redirect('/api/login');
+    // res.redirect('/api/login');
 });
 module.exports = router;

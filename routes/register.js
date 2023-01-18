@@ -22,6 +22,7 @@ router.post("/", validateRegister, async(req, res) => {
 
     //Hash password
     const hashed_password = await bcrypt.hash(password, 10);
+    const hashed_confirm_password = await bcrypt.hash(confirm_password, 10);
 
     //Save user to database
     const save_user = new UsersSchema({
@@ -29,7 +30,7 @@ router.post("/", validateRegister, async(req, res) => {
         lname,
         email,
         password: hashed_password,
-        confirm_password,
+        confirm_password:hashed_confirm_password,
         college_name,
         profession,
         gender,

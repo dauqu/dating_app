@@ -30,13 +30,15 @@ router.post("/", checkUser, async(req, res) => {
         //create and assign token
         const token = jwt.sign({
                 _id: user._id,
-                name: user.name,
+                //concat first name and last name
+                name: user.fname + " " + user.lname,
                 email: user.email,
             },
             process.env.JWT_SECRET, {
                 algorithm: "HS256",
             }
         );
+        
 
         //Set cookie
         res.cookie("auth_token", token, {
@@ -54,6 +56,7 @@ router.post("/", checkUser, async(req, res) => {
         res.status(500).json({ message: error.message, status: "error" });
     }
 });
+
 
 //Check User is login or not
 router.get("/isLoggedIn", async(req, res) => {
