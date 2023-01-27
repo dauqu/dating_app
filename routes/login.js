@@ -39,6 +39,7 @@ router.post("/", checkUser, async(req, res) => {
             }
         );
         
+        
 
         //Set cookie
         res.cookie("auth_token", token, {

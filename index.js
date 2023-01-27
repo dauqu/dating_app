@@ -1,16 +1,19 @@
 const express = require('express');
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 4000;
 const cookieparser= require('cookie-parser')
+const cors = require('cors');
 // const sendEmail= require('./routes/smtp') //==>form smtp.js
 
 //connect to database
 const connectDB = require('./config/connection');
 connectDB();
 
+app.use(cors());
+
 //allow json to parsed
 app.use(express.json());
-app.use(cookieparser())
+app.use(cookieparser());
 
 //routes
 app.use("/api/register", require("./routes/register"));
